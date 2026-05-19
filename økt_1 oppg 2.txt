@@ -1,0 +1,94 @@
+using System;
+
+namespace HelloWorld
+{
+  public class QuizServices
+  {
+      QandAQuestionsAndPoints qsAndas = new QandAQuestionsAndPoints();
+      // qsAndas.Run();
+      public void Run()
+      {
+          Console.WriteLine("Quiz!");
+          foreach(QandA question in qsAndas.QsAndAs)
+          {
+              Console.WriteLine(question.Question);
+              Console.WriteLine(question.CheckAnswer(Console.ReadLine()));
+              Console.WriteLine("Poeng: " + QandA.Points + " / 3.");
+          }
+      }
+  }
+  public class QandAQuestionsAndPoints
+  {
+      public QandA[] QsAndAs;
+      // private readonly IConsole _console; <- du husket riktig! Det VAR en interface vi brukte for å håndtere en konsollapplikasjon uten å kalle på en konsollmetode direkte og heller motta konsoll som et parameter.
+      // public QandAQuestionsAndPoints(IConsole console)
+      public QandAQuestionsAndPoints()
+      {
+          // _console = console;
+          QsAndAs = new QandA[]
+          {
+              new QandA("Hva heter hovedstaden i Norge?", "oslo"),
+              new QandA("Hva er 2 + 2?", "4"),
+              new QandA("Hvilket spraak koder vi i naa?", "c#"),
+          };
+      }
+      /*
+      
+      public void Run()
+      {
+          _console.WriteLine("Quiz!");
+          foreach(QandA question in QsAndAs)
+          {
+              _console.WriteLine(question.Question);
+              _console.WriteLine(question.CheckAnswer(_console.ReadLine()));
+              _console.WriteLine("Poeng: " + QandA.Points + " / 3.");
+          }
+      }
+      */
+  }
+  public class QandA
+  {
+    public string Question { get; set; }
+    public string Answer { get; set; }
+    public bool Answered;
+    public bool Correct;
+    public static int Points { get; set; }
+
+    public QandA(string question, string answer)
+    {
+      Question = question;
+      Answer = answer;
+    }
+    public string CheckAnswer(string userInput)
+    {
+        if (userInput.Trim().ToLower() == Answer){
+            Answered = true;
+            Correct = true;
+            Points++;
+            return "Riktig!";
+        }
+        else if (userInput != string.Empty) {
+            Answered = true;
+            return "Feil.";
+        }
+        else {
+            return "Ikke besvart.";
+        }
+    }
+    public string CheckAnswerByBool()
+    {
+        if (Answered && Correct) return "Riktig!";
+        else if (!Answered) return "Ikke besvart.";
+        else return "Feil.";
+    }
+  }
+  class Program
+  {
+    static void Main(string[] args)
+    {
+      var qqq = new QuizServices();
+      qqq.Run();
+      
+    }
+  }
+}
