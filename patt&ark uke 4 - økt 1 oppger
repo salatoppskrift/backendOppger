@@ -1,0 +1,36 @@
+--- fil: Program.cs
+
+Homework.Run();
+
+--- CONSOLE OUTPUT
+
+False
+Warning: You may not swim here.
+26.25
+
+--- fil: Homework.cs
+
+public class Homework
+{
+    private static Func<int, Func<int, bool>> isDivisibleBy
+        => x => y => ((double)y / (double)x) % 1 == 0;
+    private static Func<string, Func<string, string>> addPrefix
+        => x => y => x + y;
+
+    private static Func<decimal, Func<decimal, decimal>> addVat
+        => vat
+            => sum
+                => (vat / 100) * sum + sum;
+
+    public static void Run()
+    {
+        var divisibleBy2 = isDivisibleBy(2);
+        var addWarningPrefix = addPrefix("Warning: ");
+        var addNorwegianVat = addVat(25);
+
+        Console.WriteLine(divisibleBy2(21));
+        Console.WriteLine(addWarningPrefix("You may not swim here."));
+        Console.WriteLine(addNorwegianVat(21));
+        Console.WriteLine();
+    }
+}
